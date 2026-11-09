@@ -23,12 +23,12 @@ export const generateDigest = async (
     return null
   }
 
-  let result: ArrayBuffer | undefined = undefined
+  let content: Uint8Array<ArrayBuffer> | undefined = undefined
   let chunk: Uint8Array<ArrayBuffer> | undefined
   let chunkLength = 0
 
   const digest = async (body: Uint8Array<ArrayBuffer>) => {
-    result = await generator(mergeBuffers(result, body))
+    content = mergeBuffers(content, body)
   }
 
   const reader = stream.getReader()
@@ -85,9 +85,11 @@ export const generateDigest = async (
     await digest(chunk.subarray(0, chunkLength))
   }
 
-  if (!result) {
+  if (!content) {
     return null
   }
+
+  const result = await generator(content)
 
   return Array.prototype.map
     .call(new Uint8Array(result), (x) => x.toString(16).padStart(2, '0'))
