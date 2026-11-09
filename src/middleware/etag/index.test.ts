@@ -167,7 +167,7 @@ describe('Etag Middleware', () => {
 
     const res1 = await app.request('http://localhost/etag/rs1')
     const res2 = await app.request('http://localhost/etag/rs2')
-    const expected = '"550563e0460b33a3540278a8446a70bb96eb5172"'
+    const expected = '"5f8d3c4f12f0499e287379ec973b984c9475aa8f"'
     expect(res1.headers.get('ETag')).toBe(expected)
     expect(res2.headers.get('ETag')).toBe(expected)
   })
